@@ -25,13 +25,14 @@
 package com.snowshock35.jeiintegration.config;
 
 import com.snowshock35.jeiintegration.JEIIntegration;
-import net.minecraft.client.resources.I18n;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 public class Config {
     static final String CATEGORY_HANDLERS = "Handler Settings";
@@ -43,96 +44,100 @@ public class Config {
     private static final String defaultFluidRegInfoTooltipMode = "disabled";
     private static final String defaultRegistryNameTooltipMode = "disabled";
     private static final String defaultMaxStackSizeTooltipMode = "disabled";
-    private static final String defaultMetadataTooltipMode = "disabled";
+//    private static final String defaultMetadataTooltipMode = "disabled";
     private static final String defaultNbtTooltipMode = "disabled";
     private static final String defaultOreDictEntriesTooltipMode = "disabled";
     private static final String defaultUnlocalizedNameTooltipMode = "disabled";
 
-    private final Configuration config;
-    private String burnTimeTooltipMode = "";
-    private String durabilityTooltipMode = "";
-    private String fluidRegInfoTooltipMode = "";
-    private String registryNameTooltipMode = "";
-    private String maxStackSizeTooltipMode = "";
-    private String metadataTooltipMode = "";
-    private String nbtTooltipMode = "";
-    private String oreDictEntriesTooltipMode = "";
-    private String unlocalizedNameTooltipMode = "";
+    private static final List<String> validOptions = Arrays.asList(new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"});
 
-    public Config(FMLPreInitializationEvent e) {
-        final File configFile = new File(e.getModConfigurationDirectory(), JEIIntegration.MOD_ID + ".cfg");
-        config = new Configuration(configFile, "1.0.0");
+    public static class Client {
+        public final ConfigValue<String> burnTimeTooltipMode;
+        public final ConfigValue<String> durabilityTooltipMode;
+//        public final ConfigValue<String> fluidRegInfoTooltipMode;
+        public final ConfigValue<String> registryNameTooltipMode;
+        public final ConfigValue<String> maxStackSizeTooltipMode;
+//        public final ConfigValue<String> metadataTooltipMode;
+        public final ConfigValue<String> nbtTooltipMode;
+        public final ConfigValue<String> oreDictEntriesTooltipMode;
+        public final ConfigValue<String> unlocalizedNameTooltipMode;
 
-        loadConfig();
-    }
+        Client(ForgeConfigSpec.Builder builder) {
+            builder.comment(CATEGORY_HANDLERS)
+                    .comment("Handler Settings")
+                    .push("handler_settings");
 
-    private void loadConfig() {
-        config.setCategoryLanguageKey(CATEGORY_HANDLERS, "config.jeiintegration.handlers");
-        config.setCategoryLanguageKey(CATEGORY_TOOLTIPS, "config.jeiintegration.tooltips");
-        config.setCategoryLanguageKey(CATEGORY_MISCELLANEOUS, "config.jeiintegration.miscellaneous");
-        config.addCustomCategoryComment(CATEGORY_HANDLERS, I18n.format("config.jeiintegration.handlers.comment"));
-        config.addCustomCategoryComment(CATEGORY_TOOLTIPS, I18n.format("config.jeiintegration.tooltips.comment"));
-        config.addCustomCategoryComment(CATEGORY_MISCELLANEOUS, I18n.format("config.jeiintegration.miscellaneous.comment"));
+            builder.pop();
 
-        burnTimeTooltipMode = config.getString("burnTimeTooltipMode", CATEGORY_TOOLTIPS, defaultBurnTimeTooltipMode, I18n.format("config.jeiintegration.tooltips.burnTimeTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.burnTimeTooltipMode");
-        durabilityTooltipMode = config.getString("durabilityTooltipMode", CATEGORY_TOOLTIPS, defaultDurabilityTooltipMode, I18n.format("config.jeiintegration.tooltips.durabilityTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.durabilityTooltipMode");
-        fluidRegInfoTooltipMode = config.getString("fluidRegInfoTooltipMode", CATEGORY_TOOLTIPS, defaultFluidRegInfoTooltipMode, I18n.format("config.jeiintegration.tooltips.fluidRegInfoTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.fluidRegInfoTooltipMode");
-        registryNameTooltipMode = config.getString("registryNameTooltipMode", CATEGORY_TOOLTIPS, defaultRegistryNameTooltipMode, I18n.format("config.jeiintegration.tooltips.registryNameTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.registryNameTooltipMode");
-        maxStackSizeTooltipMode = config.getString("maxStackSizeTooltipMode", CATEGORY_TOOLTIPS, defaultMaxStackSizeTooltipMode, I18n.format("config.jeiintegration.tooltips.maxStackSizeTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.maxStackSizeTooltipMode");
-        metadataTooltipMode = config.getString("metadataTooltipMode", CATEGORY_TOOLTIPS, defaultMetadataTooltipMode, I18n.format("config.jeiintegration.tooltips.metadataTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.metadataTooltipMode");
-        nbtTooltipMode = config.getString("nbtTooltipMode", CATEGORY_TOOLTIPS, defaultNbtTooltipMode, I18n.format("config.jeiintegration.tooltips.nbtTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.nbtTooltipMode");
-        oreDictEntriesTooltipMode = config.getString("oreDictEntriesTooltipMode", CATEGORY_TOOLTIPS, defaultOreDictEntriesTooltipMode, I18n.format("config.jeiintegration.tooltips.oreDictEntriesTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.oreDictEntriesTooltipMode");
-        unlocalizedNameTooltipMode = config.getString("unlocalizedNameTooltipMode", CATEGORY_TOOLTIPS, defaultUnlocalizedNameTooltipMode, I18n.format("config.jeiintegration.tooltips.unlocalizedNameTooltipMode.comment"), new String[] {"disabled", "enabled", "onShift", "onDebug", "onShiftAndDebug"}, "config.jeiintegration.tooltips.unlocalizedNameTooltipMode");
+            builder.comment(CATEGORY_TOOLTIPS)
+                    .comment("Tooltip Settings")
+                    .push("tooltips_settings");
 
-        if (config.hasChanged()) {
-            config.save();
+            burnTimeTooltipMode = builder
+                    .comment("Configure the state of the burn time tooltip.")
+                    .translation("config.jeiintegration.tooltips.burnTimeTooltipMode")
+                    .define("burnTimeTooltipMode", defaultBurnTimeTooltipMode, string -> validOptions.contains(string));
+
+            durabilityTooltipMode = builder
+                    .comment("Enables or disables showing you items' durability.")
+                    .translation("config.jeiintegration.tooltips.durabilityTooltipMode")
+                    .define("durabilityTooltipMode", defaultDurabilityTooltipMode, string -> validOptions.contains(string));
+
+//            fluidRegInfoTooltipMode = builder
+//                    .comment("Configure the state of the fluid registry information tooltip.")
+//                    .translation("config.jeiintegration.tooltips.fluidRegInfoTooltipMode")
+//                    .define("fluidRegInfoTooltipMode", defaultFluidRegInfoTooltipMode, string -> validOptions.contains(string));
+
+            registryNameTooltipMode = builder
+                    .comment("Configure the state of the registry name tooltip.")
+                    .translation("config.jeiintegration.tooltips.registryNameTooltipMode")
+                    .define("registryNameTooltipMode", defaultRegistryNameTooltipMode, string -> validOptions.contains(string));
+
+            maxStackSizeTooltipMode = builder
+                    .comment("Configure the state of the max stack size tooltip.")
+                    .translation("config.jeiintegration.tooltips.maxStackSizeTooltipMode")
+                    .define("maxStackSizeTooltipMode", defaultMaxStackSizeTooltipMode, string -> validOptions.contains(string));
+
+            nbtTooltipMode = builder
+                    .comment("Configure the state of the nbt tooltip.")
+                    .translation("config.jeiintegration.tooltips.nbtTooltipMode")
+                    .define("nbtTooltipMode", defaultNbtTooltipMode, string -> validOptions.contains(string));
+
+            oreDictEntriesTooltipMode = builder
+                    .comment("Configure the state of the ore dictionary entries tooltip.")
+                    .translation("config.jeiintegration.tooltips.oreDictEntriesTooltipMode")
+                    .define("oreDictEntriesTooltipMode", defaultOreDictEntriesTooltipMode, string -> validOptions.contains(string));
+
+            unlocalizedNameTooltipMode = builder
+                    .comment("Configure the state of the unlocalized name tooltip.")
+                    .translation("config.jeiintegration.tooltips.unlocalizedNameTooltipMode")
+                    .define("unlocalizedNameTooltipMode", defaultUnlocalizedNameTooltipMode, string -> validOptions.contains(string));
+
+            builder.pop();
+
+            builder.comment(CATEGORY_MISCELLANEOUS)
+                    .comment("Miscellaneous Settings")
+                    .push("miscellaneous_settings");
+
+            builder.pop();
         }
     }
 
-    public Configuration getConfig() {
-        return config;
-    }
-
-    public String getBurnTimeTooltipMode() {
-        return burnTimeTooltipMode;
-    }
-
-    public String getDurabilityTooltipMode() {
-        return durabilityTooltipMode;
-    }
-
-    public String getFluidRegInfoTooltipMode() {
-        return fluidRegInfoTooltipMode;
-    }
-
-    public String getRegistryNameTooltipMode() {
-        return registryNameTooltipMode;
-    }
-
-    public String getMaxStackSizeTooltipMode() {
-        return maxStackSizeTooltipMode;
-    }
-
-    public String getMetadataTooltipMode() {
-        return metadataTooltipMode;
-    }
-
-    public String getNbtTooltipMode() {
-        return nbtTooltipMode;
-    }
-
-    public String getOreDictEntriesTooltipMode() {
-        return oreDictEntriesTooltipMode;
-    }
-
-    public String getUnlocalizedNameTooltipMode() {
-        return unlocalizedNameTooltipMode;
+    public static final ForgeConfigSpec clientSpec;
+    public static final Config.Client CLIENT;
+    static {
+        final Pair<Config.Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Config.Client::new);
+        clientSpec = specPair.getRight();
+        CLIENT = specPair.getLeft();
     }
 
     @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if (JEIIntegration.MOD_ID.equals(eventArgs.getModID())) {
-            loadConfig();
-        }
+    public static void onLoad(final ModConfig.Loading configEvent) {
+        JEIIntegration.logger.debug("Loaded JEI Integration config file {}", configEvent.getConfig().getFileName());
+    }
+
+    @SubscribeEvent
+    public static void onFileChange(final ModConfig.ConfigReloading configEvent) {
+        JEIIntegration.logger.debug("JEI Integration config just got changed on the file system!");
     }
 }

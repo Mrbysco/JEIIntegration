@@ -24,39 +24,27 @@
 
 package com.snowshock35.jeiintegration.config;
 
-import com.snowshock35.jeiintegration.JEIIntegration;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.GuiModList;
-import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.IConfigElement;
+public class JEIIntegrationModConfigGui { //extends GuiConfig {
+//    public JEIIntegrationModConfigGui(GuiScreen parent) {
+//        super(parent, getConfigElements(), JEIIntegration.MOD_ID, false, false, I18n.format("config.jeiintegration.title"));
+//    }
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class JEIIntegrationModConfigGui extends GuiConfig {
-    public JEIIntegrationModConfigGui(GuiScreen parent) {
-        super(parent, getConfigElements(), JEIIntegration.MOD_ID, false, false, I18n.format("config.jeiintegration.title"));
-    }
-
-    private static List<IConfigElement> getConfigElements() {
-        List<IConfigElement> configElements = new ArrayList<IConfigElement>();
-
-        Config config = JEIIntegration.config;
-        if (config != null) {
-            ConfigCategory categoryHandlers = config.getConfig().getCategory(Config.CATEGORY_HANDLERS);
-            configElements.add(new ConfigElement(categoryHandlers));
-
-            ConfigCategory categoryTooltips = config.getConfig().getCategory(Config.CATEGORY_TOOLTIPS);
-            configElements.add(new ConfigElement(categoryTooltips));
-
-            ConfigCategory categoryMiscellaneous = config.getConfig().getCategory(Config.CATEGORY_MISCELLANEOUS);
-            configElements.add(new ConfigElement(categoryMiscellaneous));
-        }
-
-        return configElements;
-
-    }
+//    private static List<IConfigElement> getConfigElements() {
+//        List<IConfigElement> configElements = new ArrayList<IConfigElement>();
+//
+//        Config config = JEIIntegration.config;
+//        if (config != null) {
+//            ConfigCategory categoryHandlers = config.getConfig().getCategory(Config.CATEGORY_HANDLERS);
+//            configElements.add(new ConfigElement(categoryHandlers));
+//
+//            ConfigCategory categoryTooltips = config.getConfig().getCategory(Config.CATEGORY_TOOLTIPS);
+//            configElements.add(new ConfigElement(categoryTooltips));
+//
+//            ConfigCategory categoryMiscellaneous = config.getConfig().getCategory(Config.CATEGORY_MISCELLANEOUS);
+//            configElements.add(new ConfigElement(categoryMiscellaneous));
+//        }
+//
+//        return configElements;
+//
+//    }
 }

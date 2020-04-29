@@ -1,0 +1,13 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+updateJSONURL="https://content.blamesnow.co.uk/mods/jeiintegration/update.json"
+
+[[mods]]
+modId="jeiintegration"
+version="${file.jarVersion}"
+displayName="JEI Integration"
+displayURL="https://minecraft.curseforge.com/projects/jei-integration"
+logoFile="logo.png"
+authors="SnowShock35"
+credits="A huge thank you to Tonius for originally creating this amazing mod. I hope it lives up to his standards in his absence."
+description='''JEI Integrations is the predecessor to NEI Integrations created by Tonius for Minecraft 1.7.10. It adds various tooltips, additional support for recipe handlers in Just Enough Items (JEI) and some various other features (Coming Soon...)'''

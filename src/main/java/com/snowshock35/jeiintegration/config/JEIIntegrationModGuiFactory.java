@@ -24,11 +24,11 @@
 
 package com.snowshock35.jeiintegration.config;
 
-import jline.internal.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 
+import javax.annotation.Nullable;
 import java.util.Set;
 
 public class JEIIntegrationModGuiFactory implements IModGuiFactory {

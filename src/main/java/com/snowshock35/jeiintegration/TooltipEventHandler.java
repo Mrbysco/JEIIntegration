@@ -144,13 +144,13 @@ public class TooltipEventHandler {
 
         if (!isEmptyItemStack(e)) {
             if (Objects.equals(config.getUnlocalizedNameTooltipMode(), "enabled")) {
-                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getUnlocalizedName());
+                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getTranslationKey());
             } else if (Objects.equals(config.getUnlocalizedNameTooltipMode(), "onShift") && isShiftKeyDown()) {
-                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getUnlocalizedName());
+                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getTranslationKey());
             } else if (Objects.equals(config.getUnlocalizedNameTooltipMode(), "onDebug") && isDebugMode()) {
-                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getUnlocalizedName());
+                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getTranslationKey());
             } else if (Objects.equals(config.getUnlocalizedNameTooltipMode(), "onShiftAndDebug") && isShiftKeyDown() && isDebugMode()) {
-                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getUnlocalizedName());
+                e.getToolTip().add(TextFormatting.DARK_GRAY + I18n.format("tooltip.jeiintegration.unlocalizedName") + " " + itemStack.getTranslationKey());
             }
         }
     }

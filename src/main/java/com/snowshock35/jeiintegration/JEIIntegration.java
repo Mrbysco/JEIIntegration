@@ -36,7 +36,7 @@ import org.apache.logging.log4j.Logger;
         modid = JEIIntegration.MOD_ID,
         name = JEIIntegration.MOD_NAME,
         version = JEIIntegration.MOD_VERSION,
-        dependencies = "required-after:forge@[14.21.1.2387,)",
+        dependencies = "required-after:forge@[14.23.5.2768,)",
         useMetadata = true,
         clientSideOnly = true,
         acceptedMinecraftVersions = "[1.12,)",
